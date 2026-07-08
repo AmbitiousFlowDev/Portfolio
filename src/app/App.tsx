@@ -22,8 +22,6 @@ import { FadeUp } from "./components/animations/FadeUp";
 
 const { ACCENT, ACCENT_ON_DARK, BLACK, DISPLAY_FONT } = theme;
 
-
-
 function SectionLabel({
   number,
   title,
