@@ -93,7 +93,7 @@ export function SkillGroupCard({
         {label}
       </h3>
 
-      <div className="grid gap-2 [grid-template-columns:repeat(auto-fit,minmax(130px,1fr))]">
+      <div className="flex flex-wrap gap-2">
         {items.map((item) => (
           <SkillBadge key={item} item={item} />
         ))}
