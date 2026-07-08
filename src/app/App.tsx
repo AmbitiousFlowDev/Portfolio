@@ -1,166 +1,38 @@
 import { useState, useEffect, type ReactNode } from "react";
-import { Github, Mail, MapPin, Menu, X, ArrowUpRight, Star, ExternalLink, Download } from "lucide-react";
+import {
+  Github,
+  Mail,
+  MapPin,
+  Menu,
+  X,
+  ArrowUpRight,
+  Star,
+  ExternalLink,
+  Download,
+} from "lucide-react";
 import { motion } from "motion/react";
 
-// Accessible cobalt blue — 5.5:1 on white (WCAG AA ✓)
-const ACCENT = "#1A4FD6";
-// Lighter blue for dark/colored backgrounds — 8:1+ on black ✓
-const ACCENT_ON_DARK = "#7EB3FF";
-const BLACK = "#111111";
-const DISPLAY_FONT = "'Barlow Condensed', sans-serif";
+import { projects } from "./constants/projects";
+import { educationItems } from "./constants/educationItems";
+import { skillGroups } from "./constants/skillGroups";
+import { timelineItems } from "./constants/timelineItems";
+import { theme } from "./constants/theme";
 
-const projects = [
-  {
-    id: "01",
-    name: "DANDILION",
-    desc: "Cross-platform desktop media downloader with a clean PySide6 GUI. Archives YouTube content offline via yt-dlp with format selection and queue management.",
-    tech: ["Python", "PySide6", "PyQt6", "yt-dlp", "Qt"],
-    stars: 3,
-    url: "https://github.com/AmbitiousFlowDev/Dandilion",
-    category: "DESKTOP APPLICATION",
-  },
-  {
-    id: "02",
-    name: "STRATQUEST",
-    desc: "Gamified Mobile Cloud-Based Learning Management System for Strategic Management education. Full-stack TypeScript platform with cloud deployment and mobile-first design.",
-    tech: ["TypeScript", "Mobile", "Cloud", "LMS"],
-    stars: 2,
-    url: "https://github.com/AmbitiousFlowDev/StratQuest",
-    category: "PLATFORM",
-  },
-  {
-    id: "03",
-    name: "INTERNCONNECT",
-    desc: "Peer-to-peer platform bridging the internship information gap for Moroccan students. Robust Java backend with custom P2P data architecture.",
-    tech: ["Java", "P2P", "Backend"],
-    stars: 1,
-    url: "https://github.com/AmbitiousFlowDev/InternConnect",
-    category: "SOCIAL PLATFORM",
-  },
-  {
-    id: "04",
-    name: "GENETIC DISORDER CLASSIFIER",
-    desc: "Machine learning classifier for genetic disorder detection from genomic datasets. Applies Scikit-learn pipelines to bioinformatics data in Jupyter Notebooks.",
-    tech: ["Python", "Jupyter", "Scikit-learn", "ML", "Genomics"],
-    stars: 1,
-    url: "https://github.com/AmbitiousFlowDev/GeneticDissorderClassifier",
-    category: "ML / RESEARCH",
-  },
-  {
-    id: "05",
-    name: "E-LIBRARY",
-    desc: "Advanced library management system with intelligent search and reservation workflows. React frontend, Spring Boot REST API, and MySQL with role-based access.",
-    tech: ["React", "Spring Boot", "MySQL", "JavaScript"],
-    stars: 1,
-    url: "https://github.com/AmbitiousFlowDev/E-Library",
-    category: "WEB APPLICATION",
-  },
-  {
-    id: "06",
-    name: "SONA",
-    desc: "Minimal Discord bot enhancing server experience with custom automation, commands, and event handling. Built with the Disnake Python framework.",
-    tech: ["Python", "Discord", "Disnake", "Bot"],
-    stars: 1,
-    url: "https://github.com/AmbitiousFlowDev/Sona",
-    category: "BOT / AUTOMATION",
-  },
-];
+import { FadeUp } from "./components/animations/FadeUp";
 
-const skillGroups = [
-  { label: "LANGUAGES", items: ["Java", "TypeScript", "JavaScript", "Python", "PHP"] },
-  { label: "FRONTEND", items: ["React", "HTML", "CSS", "Tailwind CSS"] },
-  { label: "BACKEND", items: ["Spring Boot", "Flask", "Node.js", "REST APIs"] },
-  { label: "GUI / DESKTOP", items: ["PySide6", "PyQt6", "Qt Framework"] },
-  { label: "DATABASES", items: ["MySQL", "SQLite", "SQL"] },
-  { label: "ML & DATA", items: ["Scikit-learn", "Pandas", "Jupyter", "NumPy"] },
-  { label: "TOOLS", items: ["Git", "Linux", "Discord API", "yt-dlp"] },
-  { label: "SYSTEMS", items: ["Cloud Computing", "P2P Architecture", "LMS Design"] },
-];
+const { ACCENT, ACCENT_ON_DARK, BLACK, DISPLAY_FONT } = theme;
 
-const timelineItems = [
-  {
-    year: "2025 — 2027",
-    title: "MASTER'S DEGREE — INFORMATION SYSTEMS ENGINEERING",
-    org: "Faculty of Sciences Semlalia, Cadi Ayyad University · Marrakech",
-    desc: "Building expertise across full-stack development, distributed systems, and machine learning. Academic projects span Java, TypeScript, Python, and cloud-native architectures.",
-    current: true,
-  },
-  {
-    year: "2024",
-    title: "STRATQUEST — LEAD DEVELOPER",
-    org: "Gamified LMS Platform",
-    desc: "Architected a cloud-based gamified LMS for strategic management education. Implemented mobile-first design, TypeScript codebase, and cloud deployment pipeline.",
-  },
-  {
-    year: "2024",
-    title: "GENETIC DISORDER CLASSIFIER",
-    org: "ML Research Project",
-    desc: "Built a machine learning classifier for genomic data analysis. Applied Scikit-learn pipelines to detect genetic disorders from bioinformatics datasets.",
-  },
-  {
-    year: "2023",
-    title: "INTERNCONNECT — SYSTEM ARCHITECT",
-    org: "Student Platform Initiative",
-    desc: "Designed and built a peer-to-peer Java platform addressing internship information gaps for Moroccan students. Implemented custom P2P data architecture from scratch.",
-  },
-  {
-    year: "2023",
-    title: "E-LIBRARY — FULL-STACK DEVELOPER",
-    org: "Academic Project",
-    desc: "Developed a library management system with React frontend, Spring Boot REST API, and MySQL. Implemented role-based access and intelligent search features.",
-  },
-];
 
-const educationItems = [
-  {
-    period: "2022 — 2024",
-    degree: "TECHNICAL DEGREE (DTS)",
-    spec: "Digital Development — Full Stack Option",
-    institution: "Specialized Institute of Applied Technology Ntic Sidi Youssef Ben Ali",
-    location: "Marrakech, Morocco",
-    tags: ["HTML/CSS", "JavaScript", "PHP", "Laravel", "React", "MySQL", "Full Stack"],
-  },
-  {
-    period: "2024 — 2025",
-    degree: "BACHELOR'S IN COMPUTER ENGINEERING",
-    spec: "Digital Governance",
-    institution: "Higher School of Technology (EST)",
-    location: "Kénitra, Morocco",
-    tags: ["Digital Governance", "Systems Design", "Cloud", "Networking", "IT Management"],
-  },
-  {
-    period: "2025 — 2027",
-    degree: "INFORMATION SYSTEMS ENGINEERING",
-    spec: "Faculty of Sciences Semlalia",
-    institution: "Cadi Ayyad University",
-    location: "Marrakech, Morocco",
-    tags: ["Information Systems", "Software Engineering", "Distributed Systems", "ML & AI", "Cloud Architecture"],
-  },
-];
 
-function FadeUp({
-  children,
-  delay = 0,
-  className = "",
+function SectionLabel({
+  number,
+  title,
+  light = false,
 }: {
-  children: ReactNode;
-  delay?: number;
-  className?: string;
+  number: string;
+  title: string;
+  light?: boolean;
 }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 36 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function SectionLabel({ number, title, light = false }: { number: string; title: string; light?: boolean }) {
   return (
     <div className="flex items-center gap-4 mb-16">
       <span
@@ -180,7 +52,12 @@ function SectionLabel({ number, title, light = false }: { number: string; title:
       >
         {title}
       </span>
-      <div className="flex-1 h-px ml-4" style={{ background: light ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.12)" }} />
+      <div
+        className="flex-1 h-px ml-4"
+        style={{
+          background: light ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.12)",
+        }}
+      />
     </div>
   );
 }
@@ -213,7 +90,11 @@ function Nav() {
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="uppercase tracking-[0.15em] transition-colors"
-          style={{ fontFamily: DISPLAY_FONT, fontWeight: 900, fontSize: "18px" }}
+          style={{
+            fontFamily: DISPLAY_FONT,
+            fontWeight: 900,
+            fontSize: "18px",
+          }}
           onMouseEnter={(e) => (e.currentTarget.style.color = ACCENT)}
           onMouseLeave={(e) => (e.currentTarget.style.color = BLACK)}
         >
@@ -228,7 +109,9 @@ function Nav() {
               className="text-xs font-semibold tracking-[0.25em] uppercase transition-colors text-black/80 hover:text-black"
               style={{ fontFamily: "'Poppins', sans-serif" }}
               onMouseEnter={(e) => (e.currentTarget.style.color = ACCENT)}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(0,0,0,0.8)")}
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color = "rgba(0,0,0,0.8)")
+              }
             >
               {id}
             </button>
@@ -243,20 +126,29 @@ function Nav() {
           </a>
         </div>
 
-        <button className="md:hidden p-1" onClick={() => setOpen(!open)} aria-label="Toggle navigation">
+        <button
+          className="md:hidden p-1"
+          onClick={() => setOpen(!open)}
+          aria-label="Toggle navigation"
+        >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
       {open && (
-        <div className="md:hidden bg-white px-6 py-4 flex flex-col gap-1" style={{ borderTop: `2px solid ${BLACK}` }}>
+        <div
+          className="md:hidden bg-white px-6 py-4 flex flex-col gap-1"
+          style={{ borderTop: `2px solid ${BLACK}` }}
+        >
           {["about", "skills", "projects", "contact"].map((id) => (
             <button
               key={id}
               onClick={() => scrollTo(id)}
               className="text-left text-sm font-bold tracking-[0.25em] uppercase py-3 border-b border-black/10 last:border-0 transition-colors text-black/80"
               onMouseEnter={(e) => (e.currentTarget.style.color = ACCENT)}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(0,0,0,0.8)")}
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color = "rgba(0,0,0,0.8)")
+              }
             >
               {id}
             </button>
@@ -284,7 +176,11 @@ function Hero() {
       {/* Subtle grid lines */}
       <div className="absolute inset-0 pointer-events-none">
         {[25, 50, 75].map((p) => (
-          <div key={p} className="absolute w-full border-t" style={{ top: `${p}%`, borderColor: "rgba(0,0,0,0.04)" }} />
+          <div
+            key={p}
+            className="absolute w-full border-t"
+            style={{ top: `${p}%`, borderColor: "rgba(0,0,0,0.04)" }}
+          />
         ))}
       </div>
 
@@ -296,17 +192,30 @@ function Hero() {
           transition={{ duration: 0.5 }}
           className="mb-8"
         >
-          <span className="font-mono text-xs tracking-[0.45em] uppercase font-semibold" style={{ color: ACCENT }}>
+          <span
+            className="font-mono text-xs tracking-[0.45em] uppercase font-semibold"
+            style={{ color: ACCENT }}
+          >
             ◼ INFORMATION TECHNOLOGY & SYSTEMS ENGINEERING · MOROCCO
           </span>
         </motion.div>
 
         {/* MOHAMED */}
         <div className="overflow-hidden mb-1">
-          <motion.div initial={{ y: "115%" }} animate={{ y: 0 }} transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div
+            initial={{ y: "115%" }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          >
             <span
               className="block uppercase leading-none"
-              style={{ fontFamily: DISPLAY_FONT, fontWeight: 900, fontSize: "clamp(68px, 13vw, 185px)", letterSpacing: "-0.025em", color: BLACK }}
+              style={{
+                fontFamily: DISPLAY_FONT,
+                fontWeight: 900,
+                fontSize: "clamp(68px, 13vw, 185px)",
+                letterSpacing: "-0.025em",
+                color: BLACK,
+              }}
             >
               MOHAMED
             </span>
@@ -315,10 +224,24 @@ function Hero() {
 
         {/* LAFROUH */}
         <div className="overflow-hidden mb-10">
-          <motion.div initial={{ y: "115%" }} animate={{ y: 0 }} transition={{ duration: 0.75, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div
+            initial={{ y: "115%" }}
+            animate={{ y: 0 }}
+            transition={{
+              duration: 0.75,
+              delay: 0.08,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+          >
             <span
               className="block uppercase leading-none"
-              style={{ fontFamily: DISPLAY_FONT, fontWeight: 900, fontSize: "clamp(68px, 13vw, 185px)", letterSpacing: "-0.025em", color: ACCENT }}
+              style={{
+                fontFamily: DISPLAY_FONT,
+                fontWeight: 900,
+                fontSize: "clamp(68px, 13vw, 185px)",
+                letterSpacing: "-0.025em",
+                color: ACCENT,
+              }}
             >
               LAFROUH
             </span>
@@ -333,13 +256,17 @@ function Hero() {
           className="flex flex-wrap items-center gap-4 mb-10"
         >
           <div className="w-10 h-0.5" style={{ backgroundColor: ACCENT }} />
-          <span className="text-sm font-semibold tracking-[0.2em] uppercase text-black">Full-Stack Engineer</span>
+          <span className="text-sm font-semibold tracking-[0.2em] uppercase text-black">
+            Full-Stack Engineer
+          </span>
           <span className="text-black/40">·</span>
           <span className="flex items-center gap-1.5 font-mono text-xs tracking-[0.2em] uppercase text-black/60">
             <MapPin size={12} /> Morocco
           </span>
           <span className="text-black/40">·</span>
-          <span className="font-mono text-xs tracking-[0.2em] uppercase text-black/60">Open to Opportunities</span>
+          <span className="font-mono text-xs tracking-[0.2em] uppercase text-black/60">
+            Open to Opportunities
+          </span>
         </motion.div>
 
         {/* CTAs */}
@@ -350,11 +277,19 @@ function Hero() {
           className="flex flex-wrap gap-3"
         >
           <button
-            onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() =>
+              document
+                .getElementById("projects")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
             className="px-8 py-4 text-sm font-bold tracking-[0.25em] uppercase text-white transition-colors"
             style={{ backgroundColor: BLACK }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = ACCENT)}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BLACK)}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.backgroundColor = ACCENT)
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.backgroundColor = BLACK)
+            }
           >
             VIEW PROJECTS
           </button>
@@ -362,8 +297,12 @@ function Hero() {
             onClick={() => window.print()}
             className="flex items-center gap-2 px-8 py-4 text-sm font-bold tracking-[0.25em] uppercase text-white transition-colors"
             style={{ backgroundColor: ACCENT }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BLACK)}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = ACCENT)}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.backgroundColor = BLACK)
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.backgroundColor = ACCENT)
+            }
           >
             <Download size={14} /> DOWNLOAD CV
           </button>
@@ -373,8 +312,14 @@ function Hero() {
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-8 py-4 text-sm font-bold tracking-[0.25em] uppercase border-2 transition-colors"
             style={{ borderColor: BLACK, color: BLACK }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = ACCENT; e.currentTarget.style.color = ACCENT; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = BLACK; e.currentTarget.style.color = BLACK; }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = ACCENT;
+              e.currentTarget.style.color = ACCENT;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = BLACK;
+              e.currentTarget.style.color = BLACK;
+            }}
           >
             <Github size={14} /> GITHUB <ArrowUpRight size={12} />
           </a>
@@ -382,15 +327,23 @@ function Hero() {
       </div>
 
       {/* Bottom status bar */}
-      <div className="relative z-10" style={{ borderTop: `2px solid ${BLACK}` }}>
+      <div
+        className="relative z-10"
+        style={{ borderTop: `2px solid ${BLACK}` }}
+      >
         <div className="max-w-7xl mx-auto px-6 md:px-16 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: ACCENT }} />
+            <div
+              className="w-2 h-2 rounded-full animate-pulse"
+              style={{ backgroundColor: ACCENT }}
+            />
             <span className="font-mono text-xs tracking-[0.35em] uppercase text-black/60">
               Available for Internships & Collaboration
             </span>
           </div>
-          <span className="font-mono text-xs tracking-[0.25em] text-black/40">PORTFOLIO 2024</span>
+          <span className="font-mono text-xs tracking-[0.25em] text-black/40">
+            PORTFOLIO 2024
+          </span>
         </div>
       </div>
     </section>
@@ -401,21 +354,30 @@ function About() {
   return (
     <section id="about" className="py-24 md:py-36 px-6 md:px-16">
       <div className="max-w-7xl mx-auto">
-        <FadeUp><SectionLabel number="01" title="ABOUT" /></FadeUp>
+        <FadeUp>
+          <SectionLabel number="01" title="ABOUT" />
+        </FadeUp>
 
         <div className="grid md:grid-cols-[1fr_260px] gap-16 md:gap-24">
           <FadeUp delay={0.1}>
             <p className="text-xl md:text-2xl leading-relaxed font-medium mb-6 max-w-2xl text-black">
-              Hi, I'm <strong className="font-bold">Mohamed Lafrouh</strong>. I'm studying Information Technology and Systems Engineering in Morocco.
+              Hi, I'm <strong className="font-bold">Mohamed Lafrouh</strong>.
+              I'm studying Information Technology and Systems Engineering in
+              Morocco.
             </p>
             <p className="text-base leading-relaxed text-black/70 max-w-xl mb-5">
-              Over the past 3+ years, I've built a range of things: backend with Java, frontend with TypeScript, some Python, and the occasional desktop app. I don't stick to one project. I've built stuff to help students and to make learning feel less like a chore.
+              Over the past 3+ years, I've built a range of things: backend with
+              Java, frontend with TypeScript, some Python, and the occasional
+              desktop app. I don't stick to one project. I've built stuff to
+              help students and to make learning feel less like a chore.
             </p>
             <p className="text-base leading-relaxed text-black/70 max-w-xl mb-5">
-              Lately, I've been digging into machine learning for biomedical problems.
+              Lately, I've been digging into machine learning for biomedical
+              problems.
             </p>
             <p className="text-base leading-relaxed text-black/70 max-w-xl mb-8">
-              I've got 16 public repos in 6 languages. I built them because I wanted to.
+              I've got 16 public repos in 6 languages. I built them because I
+              wanted to.
             </p>
             <p className="text-base font-semibold text-black max-w-xl">
               Now I'm looking for an internship or team to work with.
@@ -424,7 +386,10 @@ function About() {
 
           {/* Stats panel */}
           <FadeUp delay={0.2}>
-            <div className="pl-10" style={{ borderLeft: `4px solid ${ACCENT}` }}>
+            <div
+              className="pl-10"
+              style={{ borderLeft: `4px solid ${ACCENT}` }}
+            >
               {[
                 { value: "16", label: "REPOSITORIES" },
                 { value: "156", label: "GITHUB FOLLOWERS" },
@@ -434,11 +399,18 @@ function About() {
                 <div key={label} className="mb-9 last:mb-0">
                   <div
                     className="leading-none"
-                    style={{ fontFamily: DISPLAY_FONT, fontWeight: 900, fontSize: "clamp(52px, 5.5vw, 76px)", color: ACCENT }}
+                    style={{
+                      fontFamily: DISPLAY_FONT,
+                      fontWeight: 900,
+                      fontSize: "clamp(52px, 5.5vw, 76px)",
+                      color: ACCENT,
+                    }}
                   >
                     {value}
                   </div>
-                  <div className="font-mono text-xs tracking-[0.4em] uppercase text-black/55 mt-1 font-semibold">{label}</div>
+                  <div className="font-mono text-xs tracking-[0.4em] uppercase text-black/55 mt-1 font-semibold">
+                    {label}
+                  </div>
                 </div>
               ))}
             </div>
@@ -451,9 +423,15 @@ function About() {
 
 function Skills() {
   return (
-    <section id="skills" className="py-24 md:py-36" style={{ backgroundColor: BLACK }}>
+    <section
+      id="skills"
+      className="py-24 md:py-36"
+      style={{ backgroundColor: BLACK }}
+    >
       <div className="px-6 md:px-16 max-w-7xl mx-auto">
-        <FadeUp><SectionLabel number="02" title="SKILLS" light /></FadeUp>
+        <FadeUp>
+          <SectionLabel number="02" title="SKILLS" light />
+        </FadeUp>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
           {skillGroups.map((group, i) => (
@@ -467,7 +445,10 @@ function Skills() {
               {/* Category label — bigger and bolder */}
               <div
                 className="font-mono text-xs tracking-[0.45em] uppercase mb-4 pb-3 font-bold"
-                style={{ color: ACCENT_ON_DARK, borderBottom: `1px solid ${ACCENT_ON_DARK}55` }}
+                style={{
+                  color: ACCENT_ON_DARK,
+                  borderBottom: `1px solid ${ACCENT_ON_DARK}55`,
+                }}
               >
                 {group.label}
               </div>
@@ -476,14 +457,18 @@ function Skills() {
                   <span
                     key={item}
                     className="px-3 py-2 font-mono text-sm tracking-wide cursor-default transition-all duration-200 font-medium"
-                    style={{ color: "rgba(255,255,255,0.80)", border: "1px solid rgba(255,255,255,0.22)" }}
+                    style={{
+                      color: "rgba(255,255,255,0.80)",
+                      border: "1px solid rgba(255,255,255,0.22)",
+                    }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.borderColor = ACCENT_ON_DARK;
                       e.currentTarget.style.color = "#ffffff";
                       e.currentTarget.style.backgroundColor = `${ACCENT_ON_DARK}22`;
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = "rgba(255,255,255,0.22)";
+                      e.currentTarget.style.borderColor =
+                        "rgba(255,255,255,0.22)";
                       e.currentTarget.style.color = "rgba(255,255,255,0.80)";
                       e.currentTarget.style.backgroundColor = "transparent";
                     }}
@@ -504,7 +489,9 @@ function Projects() {
   return (
     <section id="projects" className="py-24 md:py-36 px-6 md:px-16">
       <div className="max-w-7xl mx-auto">
-        <FadeUp><SectionLabel number="03" title="PROJECTS" /></FadeUp>
+        <FadeUp>
+          <SectionLabel number="03" title="PROJECTS" />
+        </FadeUp>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {projects.map((project, i) => (
@@ -544,7 +531,10 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
       target="_blank"
       rel="noopener noreferrer"
       className="relative block bg-white overflow-hidden"
-      style={{ borderTop: `2px solid ${hovered ? ACCENT : BLACK}`, transition: "border-color 0.25s" }}
+      style={{
+        borderTop: `2px solid ${hovered ? ACCENT : BLACK}`,
+        transition: "border-color 0.25s",
+      }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -556,12 +546,23 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
 
       <div className="p-7">
         <div className="flex items-start justify-between mb-4">
-          <span className="font-mono text-xs tracking-[0.4em] text-black/45 font-semibold">{project.id}</span>
+          <span className="font-mono text-xs tracking-[0.4em] text-black/45 font-semibold">
+            {project.id}
+          </span>
           <div className="flex items-center gap-3">
-            <span className="font-mono text-[10px] tracking-[0.4em] uppercase font-bold" style={{ color: ACCENT }}>
+            <span
+              className="font-mono text-[10px] tracking-[0.4em] uppercase font-bold"
+              style={{ color: ACCENT }}
+            >
               {project.category}
             </span>
-            <ExternalLink size={13} style={{ color: hovered ? ACCENT : "rgba(0,0,0,0.35)", transition: "color 0.2s" }} />
+            <ExternalLink
+              size={13}
+              style={{
+                color: hovered ? ACCENT : "rgba(0,0,0,0.35)",
+                transition: "color 0.2s",
+              }}
+            />
           </div>
         </div>
 
@@ -577,7 +578,9 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
           {project.name}
         </h3>
 
-        <p className="text-sm text-black/65 leading-relaxed mb-6">{project.desc}</p>
+        <p className="text-sm text-black/65 leading-relaxed mb-6">
+          {project.desc}
+        </p>
 
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex flex-wrap gap-2">
@@ -604,12 +607,21 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
 
 function Experience() {
   return (
-    <section id="experience" className="py-24 md:py-36" style={{ backgroundColor: "#F2F2F2" }}>
+    <section
+      id="experience"
+      className="py-24 md:py-36"
+      style={{ backgroundColor: "#F2F2F2" }}
+    >
       <div className="px-6 md:px-16 max-w-7xl mx-auto">
-        <FadeUp><SectionLabel number="04" title="EXPERIENCE" /></FadeUp>
+        <FadeUp>
+          <SectionLabel number="04" title="EXPERIENCE" />
+        </FadeUp>
 
         <div className="relative ml-0 md:ml-[148px]">
-          <div className="absolute left-3 md:-left-8 top-0 bottom-0 w-px" style={{ background: "rgba(0,0,0,0.18)" }} />
+          <div
+            className="absolute left-3 md:-left-8 top-0 bottom-0 w-px"
+            style={{ background: "rgba(0,0,0,0.18)" }}
+          />
 
           <div className="space-y-0">
             {timelineItems.map((item, i) => (
@@ -634,7 +646,10 @@ function Experience() {
 
                 <div className="pl-8 md:pl-0 flex-1">
                   <div className="md:hidden mb-1">
-                    <span className="font-mono text-xs tracking-[0.3em] uppercase font-bold" style={{ color: ACCENT }}>
+                    <span
+                      className="font-mono text-xs tracking-[0.3em] uppercase font-bold"
+                      style={{ color: ACCENT }}
+                    >
                       {item.year}
                     </span>
                   </div>
@@ -643,16 +658,27 @@ function Experience() {
                     <div>
                       <h4
                         className="uppercase leading-tight tracking-tight"
-                        style={{ fontFamily: DISPLAY_FONT, fontWeight: 900, fontSize: "clamp(18px, 2.2vw, 24px)", color: BLACK }}
+                        style={{
+                          fontFamily: DISPLAY_FONT,
+                          fontWeight: 900,
+                          fontSize: "clamp(18px, 2.2vw, 24px)",
+                          color: BLACK,
+                        }}
                       >
                         {item.title}
                       </h4>
-                      <p className="font-mono text-xs tracking-[0.3em] uppercase mt-1 font-semibold" style={{ color: ACCENT }}>
+                      <p
+                        className="font-mono text-xs tracking-[0.3em] uppercase mt-1 font-semibold"
+                        style={{ color: ACCENT }}
+                      >
                         {item.org}
                       </p>
                     </div>
                     {item.current && (
-                      <span className="px-2.5 py-1 font-bold text-xs tracking-[0.25em] uppercase text-white shrink-0" style={{ backgroundColor: ACCENT }}>
+                      <span
+                        className="px-2.5 py-1 font-bold text-xs tracking-[0.25em] uppercase text-white shrink-0"
+                        style={{ backgroundColor: ACCENT }}
+                      >
                         CURRENT
                       </span>
                     )}
@@ -674,7 +700,9 @@ function Education() {
   return (
     <section id="education" className="py-24 md:py-36 px-6 md:px-16 bg-white">
       <div className="max-w-7xl mx-auto">
-        <FadeUp><SectionLabel number="05" title="EDUCATION" /></FadeUp>
+        <FadeUp>
+          <SectionLabel number="05" title="EDUCATION" />
+        </FadeUp>
 
         <div className="grid md:grid-cols-2 gap-4 mb-4">
           {educationItems.slice(0, 2).map((edu, i) => (
@@ -690,27 +718,58 @@ function Education() {
           </FadeUp>
 
           <FadeUp delay={0.3}>
-            <div className="p-8 h-full" style={{ borderTop: `3px solid ${BLACK}` }}>
-              <div className="font-mono text-xs tracking-[0.4em] uppercase mb-4 font-bold" style={{ color: ACCENT }}>
+            <div
+              className="p-8 h-full"
+              style={{ borderTop: `3px solid ${BLACK}` }}
+            >
+              <div
+                className="font-mono text-xs tracking-[0.4em] uppercase mb-4 font-bold"
+                style={{ color: ACCENT }}
+              >
                 RECOGNITIONS & HIGHLIGHTS
               </div>
               <h4
                 className="uppercase mb-6"
-                style={{ fontFamily: DISPLAY_FONT, fontWeight: 900, fontSize: "20px" }}
+                style={{
+                  fontFamily: DISPLAY_FONT,
+                  fontWeight: 900,
+                  fontSize: "20px",
+                }}
               >
                 CERTIFICATIONS &amp; AWARDS
               </h4>
               <div className="space-y-5">
                 {[
-                  { name: "Open Source Contributions", org: "GitHub · 16 Public Repositories", year: "2023–2024" },
-                  { name: "Multi-language Development", org: "6 Programming Languages Mastered", year: "2023" },
-                  { name: "Machine Learning Research", org: "Genomics & Biomedical ML", year: "2025" },
-                  { name: "Systems Architecture Design", org: "P2P & Cloud-Native Platforms", year: "2023–2026" },
+                  {
+                    name: "Open Source Contributions",
+                    org: "GitHub · 16 Public Repositories",
+                    year: "2023–2024",
+                  },
+                  {
+                    name: "Multi-language Development",
+                    org: "6 Programming Languages Mastered",
+                    year: "2023",
+                  },
+                  {
+                    name: "Machine Learning Research",
+                    org: "Genomics & Biomedical ML",
+                    year: "2025",
+                  },
+                  {
+                    name: "Systems Architecture Design",
+                    org: "P2P & Cloud-Native Platforms",
+                    year: "2023–2026",
+                  },
                 ].map((cert) => (
                   <div key={cert.name} className="flex items-start gap-3">
-                    <div className="w-1.5 h-1.5 mt-2 shrink-0" style={{ backgroundColor: ACCENT }} />
+                    <div
+                      className="w-1.5 h-1.5 mt-2 shrink-0"
+                      style={{ backgroundColor: ACCENT }}
+                    />
                     <div>
-                      <div className="text-sm font-semibold text-black">{cert.name}</div>
+                      <div className="text-sm font-semibold text-black">
+                        {cert.name}
+                      </div>
                       <div className="font-mono text-xs text-black/55 tracking-[0.15em] uppercase mt-0.5 font-medium">
                         {cert.org} · {cert.year}
                       </div>
@@ -735,7 +794,10 @@ function EduCard({ edu }: { edu: (typeof educationItems)[0] }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="font-mono text-xs tracking-[0.4em] uppercase mb-4 font-bold" style={{ color: ACCENT }}>
+      <div
+        className="font-mono text-xs tracking-[0.4em] uppercase mb-4 font-bold"
+        style={{ color: ACCENT }}
+      >
         {edu.period}
       </div>
       <h4
@@ -768,21 +830,41 @@ function EduCard({ edu }: { edu: (typeof educationItems)[0] }) {
 
 function Contact() {
   return (
-    <section id="contact" className="relative py-24 md:py-36 overflow-hidden" style={{ backgroundColor: ACCENT }}>
+    <section
+      id="contact"
+      className="relative py-24 md:py-36 overflow-hidden"
+      style={{ backgroundColor: ACCENT }}
+    >
       {/* Geometric decorators */}
-      <div className="absolute top-10 right-10 w-44 h-44 hidden md:block" style={{ border: "2px solid rgba(255,255,255,0.2)" }} />
-      <div className="absolute top-10 right-[72px] w-44 h-44 hidden md:block" style={{ border: "2px solid rgba(255,255,255,0.09)" }} />
-      <div className="absolute -bottom-20 -left-20 w-64 h-64 rotate-12 opacity-10" style={{ backgroundColor: BLACK }} />
+      <div
+        className="absolute top-10 right-10 w-44 h-44 hidden md:block"
+        style={{ border: "2px solid rgba(255,255,255,0.2)" }}
+      />
+      <div
+        className="absolute top-10 right-[72px] w-44 h-44 hidden md:block"
+        style={{ border: "2px solid rgba(255,255,255,0.09)" }}
+      />
+      <div
+        className="absolute -bottom-20 -left-20 w-64 h-64 rotate-12 opacity-10"
+        style={{ backgroundColor: BLACK }}
+      />
 
       <div className="relative z-10 px-6 md:px-16 max-w-7xl mx-auto">
         <FadeUp>
           <div className="flex items-center gap-4 mb-10">
-            <span className="font-mono text-xs tracking-[0.45em] uppercase font-semibold" style={{ color: "rgba(255,255,255,0.65)" }}>
+            <span
+              className="font-mono text-xs tracking-[0.45em] uppercase font-semibold"
+              style={{ color: "rgba(255,255,255,0.65)" }}
+            >
               — 06 —
             </span>
             <span
               className="uppercase leading-none tracking-tight text-white"
-              style={{ fontFamily: DISPLAY_FONT, fontWeight: 900, fontSize: "clamp(36px, 6vw, 72px)" }}
+              style={{
+                fontFamily: DISPLAY_FONT,
+                fontWeight: 900,
+                fontSize: "clamp(36px, 6vw, 72px)",
+              }}
             >
               CONTACT
             </span>
@@ -792,15 +874,25 @@ function Contact() {
         <FadeUp delay={0.1}>
           <h2
             className="uppercase text-white leading-none mb-8"
-            style={{ fontFamily: DISPLAY_FONT, fontWeight: 900, fontSize: "clamp(44px, 8vw, 114px)" }}
+            style={{
+              fontFamily: DISPLAY_FONT,
+              fontWeight: 900,
+              fontSize: "clamp(44px, 8vw, 114px)",
+            }}
           >
-            LET'S BUILD<br />SOMETHING.
+            LET'S BUILD
+            <br />
+            SOMETHING.
           </h2>
         </FadeUp>
 
         <FadeUp delay={0.18}>
-          <p className="text-base md:text-lg leading-relaxed max-w-md mb-12 font-medium" style={{ color: "rgba(255,255,255,0.85)" }}>
-            Open to internships, freelance projects, and collaborative research. Based in Morocco — working globally.
+          <p
+            className="text-base md:text-lg leading-relaxed max-w-md mb-12 font-medium"
+            style={{ color: "rgba(255,255,255,0.85)" }}
+          >
+            Open to internships, freelance projects, and collaborative research.
+            Based in Morocco — working globally.
           </p>
         </FadeUp>
 
@@ -812,8 +904,14 @@ function Contact() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2.5 px-8 py-4 text-sm font-bold tracking-[0.25em] uppercase transition-colors"
               style={{ backgroundColor: "white", color: ACCENT }}
-              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = BLACK; e.currentTarget.style.color = "white"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "white"; e.currentTarget.style.color = ACCENT; }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = BLACK;
+                e.currentTarget.style.color = "white";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "white";
+                e.currentTarget.style.color = ACCENT;
+              }}
             >
               <Github size={14} /> VIEW GITHUB
             </a>
@@ -821,8 +919,16 @@ function Contact() {
               href="mailto:m.lafrouh@example.com"
               className="inline-flex items-center gap-2.5 px-8 py-4 text-sm font-bold tracking-[0.25em] uppercase text-white transition-all"
               style={{ border: "2px solid rgba(255,255,255,0.75)" }}
-              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "white"; e.currentTarget.style.color = ACCENT; e.currentTarget.style.borderColor = "white"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "white"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.75)"; }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "white";
+                e.currentTarget.style.color = ACCENT;
+                e.currentTarget.style.borderColor = "white";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "transparent";
+                e.currentTarget.style.color = "white";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.75)";
+              }}
             >
               <Mail size={14} /> EMAIL ME <ArrowUpRight size={12} />
             </a>
@@ -839,11 +945,18 @@ function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <span
           className="uppercase tracking-[0.1em] text-white"
-          style={{ fontFamily: DISPLAY_FONT, fontWeight: 900, fontSize: "22px" }}
+          style={{
+            fontFamily: DISPLAY_FONT,
+            fontWeight: 900,
+            fontSize: "22px",
+          }}
         >
           MOHAMED LAFROUH
         </span>
-        <span className="font-mono text-xs tracking-[0.25em] uppercase text-center font-medium" style={{ color: "rgba(255,255,255,0.4)" }}>
+        <span
+          className="font-mono text-xs tracking-[0.25em] uppercase text-center font-medium"
+          style={{ color: "rgba(255,255,255,0.4)" }}
+        >
           © 2024 — IT & Systems Engineering · Morocco
         </span>
         <div className="flex items-center gap-6">
@@ -858,8 +971,12 @@ function Footer() {
               rel={label === "GITHUB" ? "noopener noreferrer" : undefined}
               className="font-mono text-xs tracking-[0.3em] uppercase transition-colors font-semibold"
               style={{ color: "rgba(255,255,255,0.5)" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = ACCENT_ON_DARK)}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.5)")}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.color = ACCENT_ON_DARK)
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color = "rgba(255,255,255,0.5)")
+              }
             >
               {label}
             </a>
