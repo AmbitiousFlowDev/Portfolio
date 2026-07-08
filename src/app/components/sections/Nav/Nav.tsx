@@ -1,7 +1,10 @@
 import {useEffect, useState} from "react";
 import {Github, Menu, X} from "lucide-react";
+import {theme} from "../../../constants/theme";
 
-function Nav() {
+const {ACCENT , BLACK, DISPLAY_FONT} = theme;
+
+export function Nav() {
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
