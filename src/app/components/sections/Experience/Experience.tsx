@@ -20,7 +20,7 @@ export function Experience() {
 
         <div className="relative ml-0 md:ml-[148px]">
           <div
-            className="absolute left-3 md:-left-8 top-0 bottom-0 w-px"
+            className="absolute left-3 md:left-0 top-0 bottom-0 w-px"
             style={{ background: "rgba(0,0,0,0.18)" }}
           />
 
@@ -35,20 +35,20 @@ export function Experience() {
                 className="relative flex gap-6 md:gap-10 pb-10"
               >
                 <div
-                  className="absolute left-0 md:-left-[41px] top-1.5 w-3 h-3 shrink-0 z-10"
+                  className="absolute left-3 md:left-0 top-1.5 w-3 h-3 -translate-x-1/2 shrink-0 z-10"
                   style={{ backgroundColor: item.current ? ACCENT : BLACK }}
                 />
 
                 <div className="hidden md:block absolute -left-[148px] top-0 w-[112px] pr-6 text-right">
-                  <span className="font-mono text-xs tracking-[0.2em] uppercase leading-tight text-black/55 font-semibold block">
+                  <span className="font-mono text-xs tracking-[0.2em] uppercase leading-tight text-black/55 font-semibold block whitespace-nowrap">
                     {item.year}
                   </span>
                 </div>
 
-                <div className="pl-8 md:pl-0 flex-1">
+                <div className="pl-8 md:pl-12 flex-1">
                   <div className="md:hidden mb-1">
                     <span
-                      className="font-mono text-xs tracking-[0.3em] uppercase font-bold"
+                      className="font-mono text-xs tracking-[0.3em] uppercase font-bold whitespace-nowrap"
                       style={{ color: ACCENT }}
                     >
                       {item.year}
