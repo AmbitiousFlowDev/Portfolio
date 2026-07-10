@@ -1,0 +1,32 @@
+name: Lighthouse
+
+on:
+  pull_request:
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - run: npm install -g serve
+
+      - run: |
+          serve dist -l 4173 &
+          sleep 5
+
+      - uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: http://localhost:4173
+          uploadArtifacts: true
+          temporaryPublicStorage: true

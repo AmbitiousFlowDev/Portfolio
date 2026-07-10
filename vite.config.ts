@@ -1,35 +1,92 @@
 import { defineConfig } from "vite";
-import path from "path";
-import tailwindcss from "@tailwindcss/vite";
+import path from "node:path";
 import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 
 function figmaAssetResolver() {
   return {
     name: "figma-asset-resolver",
-    resolveId(id) {
+    resolveId(id: string) {
       if (id.startsWith("figma:asset/")) {
-        const filename = id.replace("figma:asset/", "");
-        return path.resolve(__dirname, "src/assets", filename);
+        return path.resolve(
+          __dirname,
+          "src/assets",
+          id.replace("figma:asset/", ""),
+        );
       }
     },
   };
 }
 
 export default defineConfig({
-  plugins: [
-    figmaAssetResolver(),
-    // The React and Tailwind plugins are both required for Make, even if
-    // Tailwind is not being actively used – do not remove them
-    react(),
-    tailwindcss(),
-  ],
+  plugins: [figmaAssetResolver(), react(), tailwindcss()],
+
   resolve: {
     alias: {
-      // Alias @ to the src directory
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(__dirname, "src"),
     },
   },
 
-  // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ["**/*.svg", "**/*.csv"],
+
+  server: {
+    open: true,
+    port: 5173,
+  },
+
+  preview: {
+    port: 4173,
+  },
+
+  build: {
+    target: "es2022",
+
+    outDir: "dist",
+
+    assetsDir: "assets",
+
+    emptyOutDir: true,
+
+    sourcemap: false,
+
+    cssCodeSplit: true,
+
+    reportCompressedSize: true,
+
+    chunkSizeWarningLimit: 1000,
+
+    modulePreload: {
+      polyfill: true,
+    },
+
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("react")) {
+              return "react";
+            }
+
+            if (id.includes("@radix-ui")) {
+              return "radix";
+            }
+
+            if (id.includes("framer-motion")) {
+              return "motion";
+            }
+
+            if (id.includes("lucide-react")) {
+              return "icons";
+            }
+
+            return "vendor";
+          }
+        },
+
+        assetFileNames: "assets/[name]-[hash][extname]",
+        chunkFileNames: "assets/[name]-[hash].js",
+        entryFileNames: "assets/[name]-[hash].js",
+      },
+    },
+  },
 });
