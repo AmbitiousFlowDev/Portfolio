@@ -69,7 +69,7 @@ export function Contact() {
             style={{ color: "rgba(255,255,255,0.85)" }}
           >
             Open to internships, freelance projects, and collaborative research.
-            Based in Morocco — working globally.
+            Based in Morocco - working globally.
           </p>
         </FadeUp>
 
@@ -93,7 +93,7 @@ export function Contact() {
               <Github size={14} /> VIEW GITHUB
             </a>
             <a
-              href="mailto:m.lafrouh@example.com"
+              href="mailto:m.lafrouh@gmail.com"
               className="inline-flex items-center gap-2.5 px-8 py-4 text-sm font-bold tracking-[0.25em] uppercase text-white transition-all"
               style={{ border: "2px solid rgba(255,255,255,0.75)" }}
               onMouseEnter={(e) => {

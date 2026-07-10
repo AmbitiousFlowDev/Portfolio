@@ -20,12 +20,12 @@ export function Footer() {
           className="font-mono text-xs tracking-[0.25em] uppercase text-center font-medium"
           style={{ color: "rgba(255,255,255,0.4)" }}
         >
-          © 2024 — IT & Systems Engineering · Morocco
+          © 2026 - IT & Systems Engineering · Morocco
         </span>
         <div className="flex items-center gap-6">
           {[
             { label: "GITHUB", href: "https://github.com/AmbitiousFlowDev" },
-            { label: "EMAIL", href: "mailto:m.lafrouh@example.com" },
+            { label: "EMAIL", href: "mailto:m.lafrouh@gmail.com" },
           ].map(({ label, href }) => (
             <a
               key={label}
