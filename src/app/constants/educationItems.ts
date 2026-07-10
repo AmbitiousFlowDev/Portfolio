@@ -2,7 +2,7 @@ export const educationItems = [
   {
     period: "2022 - 2024",
     degree: "TECHNICAL DEGREE (DTS)",
-    spec: "Digital Development — Full Stack Option",
+    spec: "Digital Development - Full Stack Web Option",
     institution:
       "Specialized Institute of Applied Technology Ntic Sidi Youssef Ben Ali",
     location: "Marrakech, Morocco",
@@ -28,7 +28,7 @@ export const educationItems = [
   {
     period: "2024 - 2025",
     degree: "BACHELOR'S IN COMPUTER ENGINEERING",
-    spec: "Digital Governance",
+    spec: "Computer Engineering & Digital Governance",
     institution: "Higher School of Technology (EST)",
     location: "Kénitra, Morocco",
     tags: [

@@ -1,4 +1,4 @@
-import { JSX, useEffect, useState } from "react";
+import { type JSX, useEffect, useState } from "react";
 
 import { FadeUp } from "../../animations/FadeUp";
 import { SectionLabel } from "../../typography/SectionLabel";
