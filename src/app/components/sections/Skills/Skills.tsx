@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { type JSX } from "react";
 import { FadeUp } from "../../animations/FadeUp";
 import { SectionLabel } from "../../typography/SectionLabel";
 import { skillGroups } from "../../../constants/skillGroups";
