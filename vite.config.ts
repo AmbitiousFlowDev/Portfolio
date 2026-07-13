@@ -20,69 +20,37 @@ function figmaAssetResolver() {
 
 export default defineConfig({
   plugins: [figmaAssetResolver(), react(), tailwindcss()],
-
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
     },
+    dedupe: ["react", "react-dom"],
   },
-
+  optimizeDeps: {
+    include: ["react", "react-dom"],
+  },
   assetsInclude: ["**/*.svg", "**/*.csv"],
-
   server: {
     open: true,
     port: 5173,
   },
-
   preview: {
     port: 4173,
   },
-
   build: {
     target: "es2022",
-
     outDir: "dist",
-
     assetsDir: "assets",
-
     emptyOutDir: true,
-
     sourcemap: false,
-
     cssCodeSplit: true,
-
     reportCompressedSize: true,
-
     chunkSizeWarningLimit: 1000,
-
     modulePreload: {
       polyfill: true,
     },
-
     rollupOptions: {
       output: {
-        manualChunks(id) {
-          if (id.includes("node_modules")) {
-            if (id.includes("react")) {
-              return "react";
-            }
-
-            if (id.includes("@radix-ui")) {
-              return "radix";
-            }
-
-            if (id.includes("framer-motion")) {
-              return "motion";
-            }
-
-            if (id.includes("lucide-react")) {
-              return "icons";
-            }
-
-            return "vendor";
-          }
-        },
-
         assetFileNames: "assets/[name]-[hash][extname]",
         chunkFileNames: "assets/[name]-[hash].js",
         entryFileNames: "assets/[name]-[hash].js",
