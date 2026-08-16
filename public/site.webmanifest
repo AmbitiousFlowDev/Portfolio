@@ -1,0 +1,26 @@
+{
+  "name": "AmbitiousFlowDev — Portfolio",
+  "short_name": "Portfolio",
+  "description": "Personal portfolio of AmbitiousFlowDev showcasing projects, experience, education, skills, and achievements.",
+  "lang": "en",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
