@@ -138,19 +138,20 @@ export function Hero() {
           >
             VIEW PROJECTS
           </button>
-          {/* <button
-            onClick={() => window.print()}
-            className="flex items-center gap-2 px-8 py-4 text-sm font-bold tracking-[0.25em] uppercase text-white transition-colors"
-            style={{ backgroundColor: ACCENT }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.backgroundColor = BLACK)
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.backgroundColor = ACCENT)
-            }
-          >
-            <Download size={14} /> DOWNLOAD CV
-          </button> */}
+          <button
+  onClick={() => !disabled && window.print()}
+  disabled={disabled}
+  className="flex items-center gap-2 px-8 py-4 text-sm font-bold tracking-[0.25em] uppercase text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+  style={{ backgroundColor: disabled ? "#999" : ACCENT }}
+  onMouseEnter={(e) => {
+    if (!disabled) e.currentTarget.style.backgroundColor = BLACK;
+  }}
+  onMouseLeave={(e) => {
+    if (!disabled) e.currentTarget.style.backgroundColor = ACCENT;
+  }}
+>
+  <Download size={14} /> DOWNLOAD CV
+</button>
           <a
             href="https://github.com/AmbitiousFlowDev"
             target="_blank"
