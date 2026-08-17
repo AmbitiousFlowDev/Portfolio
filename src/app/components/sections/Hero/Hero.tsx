@@ -138,7 +138,7 @@ export function Hero() {
           >
             VIEW PROJECTS
           </button>
-          <button
+          {/* <button
             onClick={() => window.print()}
             className="flex items-center gap-2 px-8 py-4 text-sm font-bold tracking-[0.25em] uppercase text-white transition-colors"
             style={{ backgroundColor: ACCENT }}
@@ -150,7 +150,7 @@ export function Hero() {
             }
           >
             <Download size={14} /> DOWNLOAD CV
-          </button>
+          </button> */}
           <a
             href="https://github.com/AmbitiousFlowDev"
             target="_blank"
